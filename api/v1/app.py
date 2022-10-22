@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
 app for registering blueprint and starting flask
 """
