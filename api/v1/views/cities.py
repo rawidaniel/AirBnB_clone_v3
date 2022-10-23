@@ -69,4 +69,5 @@ def update_city(city_id):
         abort(404)
     obj_data = request.get_json()
     city_obj.name = obj_data['name']
+    city_obj.save()
     return jsonify(city_obj.to_dict()), 200
