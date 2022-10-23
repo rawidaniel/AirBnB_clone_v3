@@ -28,7 +28,7 @@ def get_amenity_id(amenity_id):
 
 @app_views.route("/amenities/<amenity_id>",
                  methods=["DELETE"], strict_slashes=False)
-def delete_camenity(amenity_id):
+def delete_amenity(amenity_id):
     """Delete a amenity object given amenity_id"""
     amenity_obj = storage.get('Amenity', amenity_id)
     if amenity_obj is None:
@@ -58,10 +58,10 @@ def update_amenity(amenity_id):
     """Update existing amenity object"""
     if not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
-    city_obj = storage.get('Amenity', amenity_id)
-    if city_obj is None:
+    amenity_obj = storage.get('Amenity', amenity_id)
+    if amenity_obj is None:
         abort(404)
     obj_data = request.get_json()
-    city_obj.name = obj_data['name']
-    city_obj.save()
-    return jsonify(city_obj.to_dict()), 200
+    amenity_obj.name = obj_data['name']
+    amenity_obj.save()
+    return jsonify(amenity_obj.to_dict()), 200
