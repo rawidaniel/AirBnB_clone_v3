@@ -22,17 +22,17 @@ classes = {"Amenity": Amenity, "City": City,
 
 class DBStorage:
     """interaacts with the MySQL database"""
-    __engine = None
+    engine = None
     __session = None
 
-    def __init__(self):
+    def __init(self):
         """Instantiate a DBStorage object"""
         HBNB_MYSQL_USER = getenv('HBNB_MYSQL_USER')
         HBNB_MYSQL_PWD = getenv('HBNB_MYSQL_PWD')
         HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
         HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
         HBNB_ENV = getenv('HBNB_ENV')
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
+        self.engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(HBNB_MYSQL_USER,
                                              HBNB_MYSQL_PWD,
                                              HBNB_MYSQL_HOST,
@@ -47,7 +47,7 @@ class DBStorage:
             if cls is None or cls is classes[clss] or cls is clss:
                 objs = self.__session.query(classes[clss]).all()
                 for obj in objs:
-                    key = obj.__class__.__name__ + '.' + obj.id
+                    key = obj.__class.name + '.' + obj.id
                     new_dict[key] = obj
         return (new_dict)
 
@@ -74,3 +74,27 @@ class DBStorage:
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
+
+    def get(self, cls, id):
+        """Reterive object based on the class and its ID"""
+        result = None
+        try:
+            for clss in classes:
+                if cls is clss or cls is classes[clss]:
+                    objs = self.__session.query(classes[clss]).all()
+                    for obj in objs:
+                        if id == obj.id:
+                            result = obj
+        except BaseException:
+            pass
+        return result
+
+    def count(self, cls=None):
+        """Reterive the number of objects in storage"""
+        count = 0
+        for clss in classes:
+            if cls is None or cls is clss or cls is classes[clss]:
+                objs = self.__session.query(classes[clss]).all()
+                for obj in objs:
+                    count += 1
+        return count
