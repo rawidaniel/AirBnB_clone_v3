@@ -58,7 +58,7 @@ class BaseModel:
         models.storage.new(self)
         models.storage.save()
 
-    def to_dict(self, saving_file_storage=False):
+    def to_dict(self):
         """returns a dictionary containing all keys/values of the instance"""
         new_dict = self.__dict__.copy()
         obj_class = self.__class__.__name__
@@ -69,8 +69,6 @@ class BaseModel:
         new_dict["__class__"] = obj_class
         if "_sa_instance_state" in new_dict:
             del new_dict["_sa_instance_state"]
-        if not saving_file_storage and obj_class == 'User':
-            new_dict.pop('password', None)
         return new_dict
 
     def delete(self):
