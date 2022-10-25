@@ -6,7 +6,7 @@ RESTful API for class City
 from api.v1.views import app_views
 from models import storage
 from models.place import Place
-from flask import jsonify, abort, request
+from flask import jsonify, abort, request, make_response
 
 
 @app_views.route("/cities/<city_id>/places",
@@ -120,4 +120,4 @@ def post_places_search():
                     break
         return jsonify(place_confirmed)
     else:
-        return jsonify({"error": "Not a JSON"}), 400
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
