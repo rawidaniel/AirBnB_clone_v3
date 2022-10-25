@@ -7,6 +7,8 @@ from api.v1.views import app_views
 from models import storage
 from models.place import Place
 from flask import jsonify, abort, request, make_response
+from os import environ
+STORAGE_TYPE = environ.get('HBNB_TYPE_STORAGE')
 
 
 @app_views.route("/cities/<city_id>/places",
